@@ -39,7 +39,10 @@ class BlogTest(TestCase):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Nice body content")
-        self.assertTemplateUsed(response, "home.html")        
+        self.assertTemplateUsed(response, "home.html")     
+
+        
+           
 
     def test_post_detailview(self): # new
         response = self.client.get(reverse("post_detail",
@@ -49,8 +52,45 @@ class BlogTest(TestCase):
         self.assertEqual(no_response.status_code, 404)
         self.assertContains(response, "A good title")
         self.assertTemplateUsed(response, "post_detail.html")
+        response = ""
 
+    def test_post_createview(self):
+        response = self.client.post(
+            reverse("post_new"),
+            {
+                "title": "HELLO",
+                "body": "BYE",
+                "author": "dyyys0ft",
+                "color":"GREEN",
+            },
+        )
+        no_response = self.client.get("/post/"+str(Post.objects.last().id))
+        self.assertEqual(no_response.status_code, 302)
+        self.assertEqual(Post.objects.last().title, "HELLO")
+        self.assertEqual(Post.objects.last().body, "BYE")
+
+
+
+    def test_post_updateview(self): 
+        response = self.client.post(
+            reverse("post_edit", args="1"),
+            {
+                "title": "UP",
+                "body": "UP T",
+
+            },
+            )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Post.objects.last().title, "UP")
+        self.assertEqual(Post.objects.last().body, "UP T")
         
+
+
+
+    def test_post_deleteview(self):
+        response = self.client.post(reverse("post_delete", args = "1"))
+        self.assertEqual(response.status_code,302)
+
 
 
 # Create your tests here.

@@ -18,7 +18,7 @@ class Post(models.Model):
         "auth.User",
         on_delete=models.CASCADE,
     )
-    body = models.TextField( blank=True,default="values")
+    body = models.TextField( blank=True,default="")
     color = models.CharField(max_length=6,choices=COLOR_CHOICES,default='green') 
 
     def __str__(self):

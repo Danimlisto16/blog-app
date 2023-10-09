@@ -22,12 +22,12 @@ class BlogCreateView(CreateView):
 class BlogUpdateView(UpdateView):
     model = Post
     template_name = "post_edit.html"
-    fields = ["title", "author", "body","color"]
+    fields = ["title", "body","color"]
 
 class BlogDeleteView(DeleteView):
     model = Post
     template_name = "post_delete.html"
-    fields = ["title", "author", "body","color"]
     success_url = reverse_lazy("home")
+    
 
 
